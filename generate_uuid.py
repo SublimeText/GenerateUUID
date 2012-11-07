@@ -10,9 +10,8 @@ class GenerateUuidCommand(sublime_plugin.TextCommand):
     Seealso: https://github.com/ehamiter/Sublime-Text-2-Plugins
     """
     def run(self, edit):
-        u = str(uuid.uuid4())
         for r in self.view.sel():
-            self.view.replace(edit, r, u)
+            self.view.replace(edit, r, str(uuid.uuid4()))
 
 class GenerateUuidListenerCommand(sublime_plugin.EventListener):
     """
