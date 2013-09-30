@@ -2,6 +2,7 @@ import sublime
 import sublime_plugin
 import uuid
 
+
 class GenerateUuidCommand(sublime_plugin.TextCommand):
     """
     Generate a UUID version 4.
@@ -21,6 +22,7 @@ class GenerateUuidCommand(sublime_plugin.TextCommand):
                 value = str(uuid.uuid4())
             self.view.replace(edit, r, value)
 
+
 class GenerateUuidListenerCommand(sublime_plugin.EventListener):
     """
     Expand 'uuid' and 'uuid4' to a random uuid (uuid4) and
@@ -32,9 +34,9 @@ class GenerateUuidListenerCommand(sublime_plugin.EventListener):
     Seealso: https://github.com/SublimeText/GenerateUUID/issues/1
     """
     def on_query_completions(self, view, prefix, locations):
-        if prefix in ('uuid', 'uuid4'): # random
+        if prefix in ('uuid', 'uuid4'):  # random
             val = uuid.uuid4()
-        elif prefix == 'uuid1':         # host and current time
+        elif prefix == 'uuid1':          # host and current time
             val = uuid.uuid1()
         else:
             return []
