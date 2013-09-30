@@ -32,8 +32,6 @@ class GenerateUuidListenerCommand(sublime_plugin.EventListener):
     Seealso: https://github.com/SublimeText/GenerateUUID/issues/1
     """
     def on_query_completions(self, view, prefix, locations):
-        settings = sublime.load_settings('Preferences.sublime-settings')
-        upper = settings.get('uuid_uppercase')
         if prefix in ('uuid', 'uuid4'): # random
             val = uuid.uuid4()
         elif prefix == 'uuid1':         # host and current time
