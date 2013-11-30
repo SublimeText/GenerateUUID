@@ -1,6 +1,7 @@
 import sublime
 import sublime_plugin
 import uuid
+import re
 
 
 class GenerateUuidCommand(sublime_plugin.TextCommand):
@@ -20,8 +21,19 @@ class GenerateUuidCommand(sublime_plugin.TextCommand):
                 value = str(uuid.uuid4()).upper()
             else:
                 value = str(uuid.uuid4())
+
             self.view.replace(edit, r, value)
 
+class GenerateShortUuidCommand(sublime_plugin.TextCommand):
+    def run(self, edit):
+        for r in self.view.sel():
+            settings = sublime.load_settings('Preferences.sublime-settings')
+            if settings.get('uuid_uppercase'):
+                value = str(uuid.uuid4()).upper()
+            else:
+                value = str(uuid.uuid4())
+
+            self.view.replace(edit, r, re.sub('-', '', value))
 
 class GenerateUuidListenerCommand(sublime_plugin.EventListener):
     """
@@ -34,13 +46,25 @@ class GenerateUuidListenerCommand(sublime_plugin.EventListener):
     Seealso: https://github.com/SublimeText/GenerateUUID/issues/1
     """
     def on_query_completions(self, view, prefix, locations):
+        uuid_prefix = ''
+        _prefix = prefix
+        if prefix[:2] == '0x':
+            uuid_prefix = '0x'
+            prefix = prefix[2:]
+
         if prefix in ('uuid', 'uuid4'):  # random
-            val = uuid.uuid4()
+            val = str(uuid.uuid4())
         elif prefix == 'uuid1':          # host and current time
-            val = uuid.uuid1()
+            val = str(uuid.uuid1())
+        elif prefix == 'uuid1s':
+            val = re.sub('-', '', str(uuid.uuid1()))
+        elif prefix == 'uuids':
+            val = re.sub('-', '', str(uuid.uuid4()))
         else:
             return []
+
         settings = sublime.load_settings('Preferences.sublime-settings')
         if settings.get('uuid_uppercase'):
-            val = str(val).upper()
-        return [(prefix, prefix, val)] if val else []
+            val = val.upper()
+        
+        return [(_prefix, _prefix, uuid_prefix+val)] if val else []
