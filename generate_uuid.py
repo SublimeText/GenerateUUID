@@ -1,39 +1,38 @@
 import sublime
 import sublime_plugin
 import uuid
-import re
-
 
 class GenerateUuidCommand(sublime_plugin.TextCommand):
     """
     Generate a UUID version 4.
     Plugin logic for the 'generate_uuid' command.
     Searches for "uuid_uppercase" setting in user preferences, capitalizes
-    UUID if true. - author Matt Morrison mattdmo@pigimal.com
-
-    Author: Eric Hamiter
-    Seealso: https://github.com/ehamiter/Sublime-Text-2-Plugins
+    UUID if true.
     """
-    def run(self, edit):
-        for r in self.view.sel():
-            settings = sublime.load_settings('Preferences.sublime-settings')
-            if settings.get('uuid_uppercase'):
-                value = str(uuid.uuid4()).upper()
-            else:
-                value = str(uuid.uuid4())
 
+    def run(self, edit, short = False, single = False):
+        for r, value in zip(self.view.sel(), self.generateUuids(short, single)):
             self.view.replace(edit, r, value)
 
-class GenerateShortUuidCommand(sublime_plugin.TextCommand):
-    def run(self, edit):
-        for r in self.view.sel():
-            settings = sublime.load_settings('Preferences.sublime-settings')
-            if settings.get('uuid_uppercase'):
-                value = str(uuid.uuid4()).upper()
-            else:
-                value = str(uuid.uuid4())
+    def generateUuids(self, short, single):
+        settings = sublime.load_settings('Preferences.sublime-settings')
+        uppercase = settings.get('uuid_uppercase')
 
-            self.view.replace(edit, r, re.sub('-', '', value))
+        if single:
+            value = self.newUuid(uppercase, short)
+            while True:
+                yield value
+        else:
+            while True:
+                yield self.newUuid(uppercase, short)
+
+    def newUuid(self, uppercase, short):
+        value = str(uuid.uuid4())
+        if uppercase:
+            value = value.upper()
+        if short:
+            value = value.replace('-', '')
+        return value
 
 class GenerateUuidListenerCommand(sublime_plugin.EventListener):
     """
