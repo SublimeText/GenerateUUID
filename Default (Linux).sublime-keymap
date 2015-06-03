@@ -1,4 +1,4 @@
 [
     { "keys": ["ctrl+shift+u"], "command": "generate_uuid" },
-    { "keys": ["ctrl+shift+y"], "command": "generate_short_uuid" }
+    { "keys": ["ctrl+shift+y"], "command": "generate_uuid", "args": { "short": true } }
 ]

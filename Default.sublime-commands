@@ -2,5 +2,10 @@
     {
         "caption": "Generate UUID v4",
         "command": "generate_uuid"
+    },
+    {
+        "caption": "Generate single UUID v4",
+        "command": "generate_uuid",
+        "args": { "single": true }
     }
 ]

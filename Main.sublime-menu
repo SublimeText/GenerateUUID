@@ -12,6 +12,21 @@
                     {
                         "caption": "Generate UUID v4",
                         "command": "generate_uuid"
+                    },
+                    {
+                        "caption": "Generate short UUID v4",
+                        "command": "generate_uuid",
+                        "args": { "short": true }
+                    },
+                    {
+                        "caption": "Generate single UUID v4",
+                        "command": "generate_uuid",
+                        "args": { "single": true }
+                    },
+                    {
+                        "caption": "Generate single short UUID v4",
+                        "command": "generate_uuid",
+                        "args": { "short": true, "single": true }
                     }
                 ]
             }
