@@ -1,8 +1,8 @@
 # Generate UUID package for Sublime Text
 
-Helper script to generate a UUID v4. Can be executed via keyboard shortcut `Ctrl+Shift+U` (or `Super+Shift+U` for OSX) and or via the menu item `Tools >> Packages >> Generate UUID v4`.
+Helper script to generate a UUID v4. Can be executed via keyboard shortcut `Ctrl+Shift+U` (Windows, OSX, and Linux) and or via the menu item `Tools >> Packages >> Generate UUID v4`.
 
-`Super+Shift+Y' will generate short version of UUID (for Windows use `Ctrl+Shift+Y`)
+`Ctrl+Shift+Y' will generate short version of UUID
 
 ## Installation
 
