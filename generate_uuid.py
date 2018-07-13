@@ -10,28 +10,30 @@ class GenerateUuidCommand(sublime_plugin.TextCommand):
     UUID if true.
     """
 
-    def run(self, edit, short = False, single = False):
-        for r, value in zip(self.view.sel(), self.generateUuids(short, single)):
+    def run(self, edit, short = False, single = False, firstUuidGroup = False):
+        for r, value in zip(self.view.sel(), self.generateUuids(short, single, firstUuidGroup)):
             self.view.replace(edit, r, value)
 
-    def generateUuids(self, short, single):
+    def generateUuids(self, short, single, firstUuidGroup):
         settings = sublime.load_settings('Preferences.sublime-settings')
         uppercase = settings.get('uuid_uppercase')
 
         if single:
-            value = self.newUuid(uppercase, short)
+            value = self.newUuid(uppercase, short, firstUuidGroup)
             while True:
                 yield value
         else:
             while True:
-                yield self.newUuid(uppercase, short)
+                yield self.newUuid(uppercase, short, firstUuidGroup)
 
-    def newUuid(self, uppercase, short):
+    def newUuid(self, uppercase, short, firstUuidGroup):
         value = str(uuid.uuid4())
         if uppercase:
             value = value.upper()
         if short:
             value = value.replace('-', '')
+        if firstUuidGroup:
+            value = value[:8]
         return value
 
 class GenerateUuidListenerCommand(sublime_plugin.EventListener):
