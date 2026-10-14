@@ -1,5 +1,6 @@
 import sublime
 import sublime_plugin
+import re
 import uuid
 
 class GenerateUuidCommand(sublime_plugin.TextCommand):
